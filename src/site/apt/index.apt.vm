@@ -1,0 +1,9 @@
+%{toc}
+
+Properties
+
+	Value of  project.basedir : ${project.basedir}
+
+	Value of listOfFilesProp1 : ${listOfFilesProp1}
+
+	Value of listOfFilesProp2 : ${listOfFilesProp2}

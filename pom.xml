@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ash.test.maven</groupId>
+	<artifactId>gmaven-site-test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>Gmaven Test</name>
+	<properties>
+		<sampleEnvProp>${env.USERNAME}</sampleEnvProp>
+		<myDirectory>c:/</myDirectory>
+		<listOfFilesProp>dummy</listOfFilesProp>
+	</properties>
+	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/site</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.2</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.velocity</groupId>
+						<artifactId>velocity</artifactId>
+						<version>1.7</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<phase>pre-site</phase>
+						<configuration>
+							<source>
+							def someDirectory = project.properties["myDirectory"].toString()
+							def listOfFiles = new File(someDirectory).listFiles();
+
+							project.properties["listOfFilesProp1"] = listOfFiles;
+							project.properties.setProperty("listOfFilesProp2", listOfFiles);
+							
+							println "*********************************"
+							println project.properties["listOfFilesProp1"]
+							println project.properties["listOfFilesProp2"]
+							println "*********************************"
+							</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.6</version>
+				<reportSets>
+					<reportSet/>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+</project>
